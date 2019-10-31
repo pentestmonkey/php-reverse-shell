@@ -83,7 +83,7 @@ if (function_exists('pcntl_fork')) {
 
 	$daemon = 1;
 } else {
-	printit("WARNING: Failed to daemonise.  This is quite common and not fatal.");
+	printit("WARNING: Failed to daemonise.  This is quite common and not fatal."); //Failure message
 }
 
 // Change to a safe directory
