@@ -1,0 +1,1246 @@
+# These are supported funding model platforms
+
+github: # Replace with up to 4 GitHub Sponsors-enabled usernames e.g., [user1, user2]
+patreon: # Replace with a single Patreon username
+open_collective: # Replace with a single Open Collective username
+ko_fi: # Replace with a single Ko-fi username
+tidelift: # Replace with a single Tidelift platform-name/package-name e.g., npm/babel
+community_bridge: # Replace with a single Community Bridge project-name e.g., cloud-foundry
+liberapay: # Replace with a single Liberapay username
+issuehunt: # Replace with a single IssueHunt username
+otechie: # Replace with a single Otechie username
+custom: # Replace with up to 4 custom sponsorship URLs e.g., ['link1', 'link2']
+{
+  "l10nTabName": {
+    "message":"Localization"
+    ,"description":"name of the localization tab"
+  }
+  ,"l10nHeader": {
+    "message":"It does localization too! (this whole tab is, actually)"
+    ,"description":"Header text for the localization section"
+  }
+  ,"l10nIntro": {
+    "message":"'L10n' refers to 'Localization' - 'L' an 'n' are obvious, and 10 comes from the number of letters between those two.  It is the process/whatever of displaying something in the language of choice.  It uses 'I18n', 'Internationalization', which refers to the tools / framework supporting L10n.  I.e., something is internationalized if it has I18n support, and can be localized.  Something is localized for you if it is in your language / dialect."
+    ,"description":"introduce the basic idea."
+  }
+  ,"l10nProd": {
+    "message":"You <strong>are</strong> planning to allow localization, right?  You have <em>no idea</em> who will be using your extension!  You have no idea who will be translating it!  At least support the basics, it's not hard, and having the framework in place will let you transition much more easily later on."
+    ,"description":"drive the point home.  It's good for you."
+  }
+  ,"l10nFirstParagraph": {
+    "message":"When the options page loads, elements decorated with <strong>data-l10n</strong> will automatically be localized!"
+    ,"description":"inform that <el data-l10n='' /> elements will be localized on load"
+  }
+  ,"l10nSecondParagraph": {
+    "message":"If you need more complex localization, you can also define <strong>data-l10n-args</strong>.  This should contain <span class='code'>$containerType$</span> filled with <span class='code'>$dataType$</span>, which will be passed into Chrome's i18n API as <span class='code'>$functionArgs$</span>.  In fact, this paragraph does just that, and wraps the args in mono-space font.  Easy!"
+    ,"description":"introduce the data-l10n-args attribute.  End on a lame note."
+    ,"placeholders": {
+      "containerType": {
+        "content":"$1"
+        ,"example":"'array', 'list', or something similar"
+        ,"description":"type of the args container"
+      }
+      ,"dataType": {
+        "content":"$2"
+        ,"example":"string"
+        ,"description":"type of data in each array index"
+      }
+      ,"functionArgs": {
+        "content":"$3"
+        ,"example":"arguments"
+        ,"description":"whatever you call what you pass into a function/method.  args, params, etc."
+      }
+    }
+  }
+  ,"l10nThirdParagraph": {
+    "message":"Message contents are passed right into innerHTML without processing - include any tags (or even scripts) that you feel like.  If you have an input field, the placeholder will be set instead, and buttons will have the value attribute set."
+    ,"description":"inform that we handle placeholders, buttons, and direct HTML input"
+  }
+  ,"l10nButtonsBefore": {
+    "message":"Different types of buttons are handled as well.  &lt;button&gt; elements have their html set:"
+  }
+  ,"l10nButton": {
+    "message":"in a <strong>button</strong>"
+  }
+  ,"l10nButtonsBetween": {
+    "message":"while &lt;input type='submit'&gt; and &lt;input type='button'&gt; get their 'value' set (note: no HTML):"
+  }
+  ,"l10nSubmit": {
+    "message":"a <strong>submit</strong> value"
+  }
+  ,"l10nButtonsAfter": {
+    "message":"Awesome, no?"
+  }
+  ,"l10nExtras": {
+    "message":"You can even set <span class='code'>data-l10n</span> on things like the &lt;title&gt; tag, which lets you have translatable page titles, or fieldset &lt;legend&gt; tags, or anywhere else - the default <span class='code'>Boil.localize()</span> behavior will check every tag in the document, not just the body."
+    ,"description":"inform about places which may not be obvious, like <title>, etc"
+  }
+}
+ BIN +25.8 KB icons/icon128.png 
+Binary file not shown.
+ BIN +789 Bytes icons/icon16.png 
+Binary file not shown.
+ BIN +749 Bytes icons/icon19.png 
+Binary file not shown.
+ BIN +5.82 KB icons/icon48.png 
+Binary file not shown.
+ 35  manifest.json 
+@@ -0,0 +1,35 @@
+{
+  "name": "Mint Background Sync to Firestore ",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Sync your transactions from Mint to Firestore",
+  "homepage_url": "https://github.com/aduyng/mint-background-sync-to-firestore",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "default_locale": "en",
+  "background": {
+    "page": "src/bg/background.html",
+    "persistent": true
+  },
+  "content_security_policy": "script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com https://firebasestorage.googleapis.com; object-src 'self'; connect-src 'self' wss://*.firebaseio.com https://firebasestorage.googleapis.com;",
+  "options_page": "src/options_custom/index.html",
+  "permissions": [
+    "https://www.gstatic.com/*",
+    "https://mint.intuit.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://mint.intuit.com/*"
+      ],
+      "js": [
+        "src/lib/onDocumentReady.js",
+        "src/lib/downloadFile.js",
+        "src/inject/inject.js"
+      ]
+    }
+  ]
+}
+ 948  package-lock.json 
+Large diffs are not rendered by default.
+
+ 23  package.json 
+@@ -0,0 +1,23 @@
+{
+  "name": "@aduyng/mint-background-sync-to-firestore",
+  "version": "1.0.0",
+  "description": "A Chrome extension that syncs the transactions in the background to firebase",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aduyng/mint-background-sync-to-firestore.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aduyng/mint-background-sync-to-firestore/issues"
+  },
+  "homepage": "https://github.com/aduyng/mint-background-sync-to-firestore#readme",
+  "devDependencies": {
+    "eslint": "^7.17.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}
+ 10  src/bg/background.html 
+@@ -0,0 +1,10 @@
+<html>
+<head>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-storage.js"></script>
+    <script src="../options_custom/lib/store.js"></script>
+    <script src="../lib/initializeFirebase.js"></script>
+    <script src="../lib/uploadStringToFirebaseStorage.js"></script>
+    <script src="./background.js"></script>
+</head>
+</html>
+ 18  src/bg/background.js 
+@@ -0,0 +1,18 @@
+const options = new Store('settings', {
+  'apiKey': 'Enter your firebase apiKey',
+});
+
+chrome.extension.onMessage.addListener(
+    function(request, sender, sendResponse) {
+      console.log(`received ${request.event || 'unknown'} event`);
+      if ( request.event === 'file-downloaded') {
+        const firebase = initializeFirebase({settings: options});
+        return uploadStringToFirebaseStorage({
+          stringContent: request.payload.fileContent,
+          firebase,
+          filePath: `mint/tmp/transactions-${Date.now()}.csv`,
+        });
+      }
+
+      sendResponse('message from background');
+    });
+ 19  src/inject/inject.js 
+@@ -0,0 +1,19 @@
+
+chrome.extension.sendMessage({}, () => {
+	console.log(`connection to background page has been established`);
+	onDocumentReady()
+		.then(() => {
+			console.log(`document is ready`);
+			return downloadFile({url: "https://mint.intuit.com/transactionDownload.event?queryNew=&offset=0&filterType=cash&comparableType=8"})
+		})
+		.then(blob => blob.text())
+		.then(fileContent => {
+			console.log(`file downloaded, sending to the background`);
+			chrome.extension.sendMessage({
+				event: "file-downloaded",
+				payload: {
+					fileContent
+				}
+			})
+		})
+});
+ 4  src/lib/downloadFile.js 
+@@ -0,0 +1,4 @@
+function downloadFile({url, ...options}) {
+  return fetch(url, options)
+      .then( (res) => res.blob() );
+}
+ 16  src/lib/initializeFirebase.js 
+@@ -0,0 +1,16 @@
+let isFirebaseInitialized = false;
+
+const settings = new Store("settings");
+
+function initializeFirebase({settings}){
+  if( isFirebaseInitialized ){
+    return firebase;
+  }
+
+  firebase.initializeApp({
+    apiKey: settings.get("apiKey"),
+    storageBucket: settings.get("storageBucket")
+  });
+  isFirebaseInitialized = true;
+  return firebase;
+}
+ 11  src/lib/onDocumentReady.js 
+@@ -0,0 +1,11 @@
+
+function onDocumentReady(){
+  return new Promise((resolve) => {
+    const readyStateCheckInterval = setInterval(function handler() {
+      if (document.readyState === "complete") {
+        clearInterval(readyStateCheckInterval);
+        return resolve();
+      }
+    }, 10);
+  })
+}
+ 9  src/lib/uploadStringToFirebaseStorage.js 
+@@ -0,0 +1,9 @@
+function uploadStringToFirebaseStorage({stringContent, firebase, filePath}) {
+  const storageRef = firebase.storage().ref();
+
+  const fileRef = storageRef.child(filePath);
+  return fileRef.putString(stringContent)
+      .then(() => {
+        console.log(`content has been uploaded to ${fileRef.fullPath}`);
+      });
+}
+ 114  src/options_custom/README.md 
+@@ -0,0 +1,114 @@
+# [Fancy Settings 1.2](https://github.com/frankkohlhepp/fancy-settings)
+*Create fancy, chrome-look-alike settings for your Chrome or Safari extension in minutes!*
+
+### Howto
+Welcome to Fancy Settings! Are you ready for tabs, groups, search, good style?  
+Let's get started, it only takes a few minutes...
+
+Settings can be of different types: text input, checkbox, slider, etc. Some "settings" are not actual settings but provide functionality that is relevant to the options page: description (which is simply a block of text), button.
+
+Settings are defined in the manifest.js file as JavaScript objects. Each setting is defined by specifying a number of parameters. All types of settings are configured with the string parameters tab, group, name and type.
+
+###Basic example:
+```javascript
+{
+    "tab": "Tab 1",
+    "group": "Group 1",
+    "name": "checkbox1",
+    "type": "checkbox"
+}
+```
+
+"name" is used as a part of the key when storing the setting's value in localStorage. 
+If it's missing, nothing will be saved.
+
+###Additionally, all types of settings are configured with their own custom parameters:
+
+###Description ("type": "description")
+
+text (string) the block of text, which can include HTML tags. You can continue multiple lines of text by putting a \ at the end of a line, just as with any JavaScript file.
+
+####
+Button ("type": "button")
+```
+ Label (string) text shown in front of the button
+ Text (string) text shown on the button
+```
+
+####Text ("type": "text")
+```
+ label (string) text shown in front of the text field
+ text (string) text shown in the text field when empty
+ masked (boolean) indicates a password field
+```
+
+####Checkbox ("type": "checkbox")
+```
+ label (string) text shown behind the checkbox
+```
+
+####Slider ("type": "slider")
+```
+ label (string) text shown in front of the slider
+ max (number) maximal value of the slider
+ min (number) minimal value of the slider 
+ step (number) steps between two values
+ display (boolean) indicates whether to show the slider display
+ displayModifier (function) a function to modify the value shown in the display
+```
+
+####PopupButton ("type": "popupButton"), ListBox ("type": "listBox") & RadioButtons ("type": "radioButtons")
+```
+label (string) text shown in front of the options
+ options (array of options)
+ where an option can be one of the following formats:
+```
+
+####"value"
+```
+["value", "displayed text"]
+{value: "value", text: "displayed text"}
+```
+The "displayed text" field is optional and is displayed to the user when you don't want to display the internal value directly to the user.
+
+#### You can also group options so that the user can easily choose among them (groups may only be applied to popupButtons):
+
+```javascript
+          "options": {
+              "groups": [
+                  "Hot", "Cold",
+              ],
+              "values": [
+                  {
+                      "value": "hot",
+                      "text": "Very hot",
+                      "group": "Hot",
+                  },
+                  {
+                      "value": "Medium",
+                      "group": 1,
+                  },
+                  {
+                      "value": "Cold",
+                      "group": 2,
+                  },
+                  ["Non-existing"]
+              ],
+          },
+```
+
+### License
+Fancy Settings is licensed under the **LGPL 2.1**.  
+For details see *LICENSE.txt*
+ 132  src/options_custom/css/main.css 
+@@ -0,0 +1,132 @@
+/*
+// Copyright (c) 2011 Frank Kohlhepp
+// https://github.com/frankkohlhepp/fancy-settings
+// License: LGPL v2.1
+*/
+.fancy {
+    text-shadow: #F5F5F5 0 1px 0;
+}
+
+#sidebar {
+    position: absolute;
+    background-color: #EDEDED;
+    background-image: linear-gradient(top, #EDEDED, #F5F5F5);
+    background-image: -webkit-gradient(
+        linear,
+        left top,
+        left 500,
+        color-stop(0, #EDEDED),
+        color-stop(1, #F5F5F5)
+    );
+    background-image: -moz-linear-gradient(
+        center top,
+        #EDEDED 0%,
+        #F5F5F5 100%
+    );
+    background-image: -o-linear-gradient(top, #EDEDED, #F5F5F5);
+    width: 219px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    border-right: 1px solid #C2C2C2;
+    box-shadow: inset -8px 0 30px -30px black;
+}
+
+#icon {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 12px;
+    left: 12px;
+}
+
+#sidebar h1 {
+    position: absolute;
+    top: 13px;
+    right: 25px;
+    font-size: 26px;
+    color: #707070;
+}
+
+#tab-container {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-align: right;
+}
+
+#tab-container .tab {
+    height: 28px;
+    padding-right: 25px;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    font-size: 12px;
+    line-height: 28px;
+    color: #808080;
+    cursor: pointer;
+}
+
+#search-container {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-right: 23px !important;
+    cursor: default !important;
+}
+
+#search-container input {
+    width: 130px;
+}
+
+#tab-container .tab.active, body.searching #search-container {
+    background-color: #D4D4D4;
+    border-color: #BFBFBF;
+    color: black;
+    text-shadow: #DBDBDB 0 1px 0;
+    box-shadow: inset -12px 0 30px -30px black;
+}
+
+body.searching #tab-container .tab.active {
+    background-color: transparent;
+    border-color: transparent;
+    color: #808080;
+    text-shadow: inherit;
+    box-shadow: none;
+}
+
+#content {
+    position: absolute;
+    top: 0;
+    left: 220px;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+}
+
+.tab-content {
+    display: none;
+    position: absolute;
+    width: 840px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    padding: 20px;
+    padding-top: 15px;
+}
+
+body.searching .tab-content {
+    display: none !important;
+}
+
+body.searching #search-result-container {
+    display: block !important;
+}
+
+body.measuring .tab-content, body.measuring #search-result-container {
+    display: block !important;
+    opacity: 0;
+    overflow: hidden;
+}
+ 81  src/options_custom/css/setting.css 
+@@ -0,0 +1,81 @@
+/*
+// Copyright (c) 2011 Frank Kohlhepp
+// https://github.com/frankkohlhepp/fancy-settings
+// License: LGPL v2.1
+*/
+.tab-content h2 {
+    margin: 0;
+    padding-bottom: 5px;
+    font-size: 26px;
+    color: #707070;
+    line-height: 1;
+}
+
+.setting.group {
+    border-top: 1px solid #EEEEEE;
+    margin-top: 10px;
+    padding-top: 5px;
+    padding-left: 2px;
+}
+
+.setting.group-name {
+    width: 140px;
+    padding: 0;
+    font-size: 14px;
+    font-weight: bold;
+    vertical-align: top;
+}
+
+.setting.bundle {
+    max-width: 600px;
+    margin-bottom: 5px;
+}
+
+.setting.bundle.list-box {
+    margin-bottom: 10px;
+}
+
+.setting.label.radio-buttons + .setting.container.radio-buttons {
+    margin-top: 3px;
+}
+
+.setting.label, .setting.element-label {
+    margin-right: 15px;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.setting.label.checkbox, .setting.element-label {
+    margin-left: 5px;
+    margin-right: 0;
+}
+
+.setting.label.checkbox {
+    position: relative;
+    top: 1px;
+}
+
+.setting.element.slider {
+    position: relative;
+    width: 150px;
+    top: 4px;
+}
+
+.setting.element.list-box {
+    display: block;
+    height: 100px;
+    width: 100%;
+}
+
+.setting.display.slider {
+    margin-left: 5px;
+    color: #666666;
+}
+
+#nothing-found {
+    display: none;
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: lighter;
+    color: #999999;
+}
+ 4  src/options_custom/custom.css 
+@@ -0,0 +1,4 @@
+/*
+// Add your own style rules here, not in css/main.css
+// or css/setting.css for easy updating reasons.
+*/
+ 71  src/options_custom/i18n.js 
+@@ -0,0 +1,71 @@
+// SAMPLE
+this.i18n = {
+    "settings": {
+        "en": "Settings",
+        "de": "Optionen"
+    },
+    "search": {
+        "en": "Search",
+        "de": "Suche"
+    },
+    "nothing-found": {
+        "en": "No matches were found.",
+        "de": "Keine Übereinstimmungen gefunden."
+    },
+
+
+
+    "information": {
+        "en": "Information",
+        "de": "Information"
+    },
+    "login": {
+        "en": "Login",
+        "de": "Anmeldung"
+    },
+    "username": {
+        "en": "Username:",
+        "de": "Benutzername:"
+    },
+    "password": {
+        "en": "Password:",
+        "de": "Passwort:"
+    },
+    "x-characters": {
+        "en": "6 - 12 characters",
+        "de": "6 - 12 Zeichen"
+    },
+    "x-characters-pw": {
+        "en": "10 - 18 characters",
+        "de": "10 - 18 Zeichen"
+    },
+    "description": {
+        "en": "This is a description. You can write any text inside of this.<br>\
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut\
+        labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores\
+        et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem\
+        ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et\
+        dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.\
+        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+
+        "de": "Das ist eine Beschreibung. Du kannst hier beliebigen Text einfügen.<br>\
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut\
+        labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores\
+        et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem\
+        ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et\
+        dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.\
+        Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+    },
+    "logout": {
+        "en": "Logout",
+        "de": "Abmeldung"
+    },
+    "enable": {
+        "en": "Enable",
+        "de": "Aktivieren"
+    },
+    "disconnect": {
+        "en": "Disconnect:",
+        "de": "Trennen:"
+    }
+};
+ BIN +3.96 KB src/options_custom/icon.png 
+Binary file not shown.
+ 46  src/options_custom/index.html 
+@@ -0,0 +1,46 @@
+<!--
+// Copyright (c) 2011 Frank Kohlhepp
+// https://github.com/frankkohlhepp/fancy-settings
+// License: LGPL v2.1
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title id="title"></title>
+
+        <!-- Stylesheets -->
+        <link id="favicon" rel="icon" href="">
+        <link rel="stylesheet" href="lib/default.css" media="screen">
+        <link rel="stylesheet" href="css/main.css" media="screen">
+        <link rel="stylesheet" href="css/setting.css" media="screen">
+        <link rel="stylesheet" href="custom.css" media="screen">
+
+        <!-- JavaScripts -->
+        <script src="lib/mootools-core.js"></script>
+        <script src="lib/store.js"></script>
+        <script src="js/classes/tab.js"></script>
+        <script src="js/classes/setting.js"></script>
+        <script src="js/classes/search.js"></script>
+        <script src="js/classes/fancy-settings.js"></script>
+        <script src="i18n.js"></script>
+        <script src="js/i18n.js"></script>
+        <script src="manifest.js"></script>
+        <script src="settings.js"></script>
+    </head>
+    <body class="no-select">
+        <div id="sidebar" class="fancy">
+            <img id="icon" src="" alt=""><h1 id="settings-label"></h1>
+            <div id="tab-container">
+                <div id="search-container" class="tab">
+                    <input id="search" type="search" placeholder="">
+                </div>
+            </div>
+        </div>
+        <div id="content">
+            <div id="search-result-container" class="tab-content">
+                <h2 id="search-label"></h2>
+            </div>
+        </div>
+    </body>
+</html>
+ 152  src/options_custom/js/classes/fancy-settings.js 
+@@ -0,0 +1,152 @@
+//
+// Copyright (c) 2011 Frank Kohlhepp
+// https://github.com/frankkohlhepp/fancy-settings
+// License: LGPL v2.1
+//
+(function () {
+    var FancySettings = this.FancySettings = new Class({
+        "tabs": {},
+
+        "initialize": function (name, icon) {
+            // Set title and icon
+            $("title").set("text", name);
+            $("favicon").set("href", icon);
+            $("icon").set("src", icon);
+            $("settings-label").set("text", (i18n.get("settings") || "Settings"));
+            $("search-label").set("text", (i18n.get("search") || "Search"));
+            $("search").set("placeholder", (i18n.get("search") || "Search") + "...");
+
+            this.tab = new Tab($("tab-container"), $("content"));
+            this.search = new Search($("search"), $("search-result-container"));
+        },
+
+        "create": function (params) {
+            var tab,
+                group,
+                row,
+                content,
+                bundle;
+
+            // Create tab if it doesn't exist already
+            if (this.tabs[params.tab] === undefined) {
+                this.tabs[params.tab] = {"groups":{}};
+                tab = this.tabs[params.tab];
+
+                tab.content = this.tab.create();
+                tab.content.tab.set("text", params.tab);
+                this.search.bind(tab.content.tab);
+
+                tab.content = tab.content.content;
+                (new Element("h2", {
+                    "text": params.tab
+                })).inject(tab.content);
+            } else {
+                tab = this.tabs[params.tab];
+            }
+
+            // Create group if it doesn't exist already
+            if (tab.groups[params.group] === undefined) {
+                tab.groups[params.group] = {};
+                group = tab.groups[params.group];
+
+                group.content = (new Element("table", {
+                    "class": "setting group"
+                })).inject(tab.content);
+
+                row = (new Element("tr")).inject(group.content);
+
+                (new Element("td", {
+                    "class": "setting group-name",
+                    "text": params.group
+                })).inject(row);
+
+                content = (new Element("td", {
+                    "class": "setting group-content"
+                })).inject(row);
+
+                group.setting = new Setting(content);
+            } else {
+                group = tab.groups[params.group];
+            }
+
+            // Create and index the setting
+            bundle = group.setting.create(params);
+            this.search.add(bundle);
+
+            return bundle;
+        },
+
+        "align": function (settings) {
+            var types,
+                type,
+                maxWidth;
+
+            types = [
+                "text",
+                "button",
+                "slider",
+                "popupButton"
+            ];
+            type = settings[0].params.type;
+            maxWidth = 0;
+
+            if (!types.contains(type)) {
+                throw "invalidType";
+            }
+
+            settings.each(function (setting) {
+                if (setting.params.type !== type) {
+                    throw "multipleTypes";
+                }
+
+                var width = setting.label.offsetWidth;
+                if (width > maxWidth) {
+                    maxWidth = width;
+                }
+            });
+
+            settings.each(function (setting) {
+                var width = setting.label.offsetWidth;
+                if (width < maxWidth) {
+                    if (type === "button" || type === "slider") {
+                        setting.element.setStyle("margin-left", (maxWidth - width + 2) + "px");
+                        setting.search.element.setStyle("margin-left", (maxWidth - width + 2) + "px");
+                    } else {
+                        setting.element.setStyle("margin-left", (maxWidth - width) + "px");
+                        setting.search.element.setStyle("margin-left", (maxWidth - width) + "px");
+                    }
+                }
+            });
+        }
+    });
+
+    FancySettings.__proto__.initWithManifest = function (callback) {
+        var settings,
+            output;
+
+        settings = new FancySettings(manifest.name, manifest.icon);
+        settings.manifest = {};
+
+        manifest.settings.each(function (params) {
+            output = settings.create(params);
+            if (params.name !== undefined) {
+                settings.manifest[params.name] = output;
+            }
+        });
+
+        if (manifest.alignment !== undefined) {
+            document.body.addClass("measuring");
+            manifest.alignment.each(function (group) {
+                group = group.map(function (name) {
+                    return settings.manifest[name];
+                });
+                settings.align(group);
+            });
+            document.body.removeClass("measuring");
+        }
+
+        if (callback !== undefined) {
+            callback(settings);
+        }
+    };
+}());
+ 126  src/options_custom/js/classes/search.js 
+@@ -0,0 +1,126 @@
+//
+// Copyright (c) 2011 Frank Kohlhepp
+// https://github.com/frankkohlhepp/fancy-settings
+// License: LGPL v2.1
+//
+(function () {
+    this.Search = new Class({
+        "index": [],
+        "groups": {},
+
+        "initialize": function (search, searchResultContainer) {
+            var setting,
+                find;
+
+            this.search = search;
+            this.searchResultContainer = searchResultContainer;
+            this.setting = new Setting(new Element("div"));
+
+            // Create setting for message "nothing found"
+            setting = new Setting(this.searchResultContainer);
+            this.nothingFound = setting.create({
+                "type": "description",
+                "text": (i18n.get("nothing-found") || "No matches were found.")
+            });
+            this.nothingFound.bundle.set("id", "nothing-found");
+
+            // Create event handlers
+            find = (function (event) {
+                this.find(event.target.get("value"));
+            }).bind(this);
+
+            this.search.addEvent("keyup", (function (event) {
+                if (event.key === "esc") {
+                    this.reset();
+                } else {
+                    find(event);
+                }
+            }).bind(this));
+            this.search.addEventListener("search", find, false);
+        },
+
+        "bind": function (tab) {
+            tab.addEvent("click", this.reset.bind(this));
+        },
+
+        "add": function (setting) {
+            var searchSetting = this.setting.create(setting.params);
+            setting.search = searchSetting;
+            searchSetting.original = setting;
+            this.index.push(searchSetting);
+
+            setting.addEvent("action", function (value, stopPropagation) {
+                if (searchSetting.set !== undefined && stopPropagation !== true) {
+                    searchSetting.set(value, true);
+                }
+            });
+            searchSetting.addEvent("action", function (value) {
+                if (setting.set !== undefined) {
+                    setting.set(value, true);
+                }
+                setting.fireEvent("action", [value, true]);
+            });
+        },
+
+        "find": function (searchString) {
+            // Exit search mode
+            if (searchString.trim() === "") {
+                document.body.removeClass("searching");
+                return;
+            }
+
+            // Or enter search mode
+            this.index.each(function (setting) { setting.bundle.dispose(); });
+            Object.each(this.groups, function (group) { group.dispose(); });
+            document.body.addClass("searching");
+
+            // Filter settings
+            var result = this.index.filter(function (setting) {
+                if (setting.params.searchString.contains(searchString.trim().toLowerCase())) {
+                    return true;
+                }
+            });
+
+            // Display settings
+            result.each((function (setting) {
+                var group,
+                    row;
+
+                // Create group if it doesn't exist already
+                if (this.groups[setting.params.group] === undefined) {
+                    this.groups[setting.params.group] = (new Element("table", {
+                        "class": "setting group"
+                    })).inject(this.searchResultContainer);
+
+                    group = this.groups[setting.params.group];
+                    row = (new Element("tr")).inject(group);
+
+                    (new Element("td", {
+                        "class": "setting group-name",
+                        "text": setting.params.group
+                    })).inject(row);
+
+                    group.content = (new Element("td", {
+                        "class": "setting group-content"
+                    })).inject(row);
+                } else {
+                    group = this.groups[setting.params.group].inject(this.searchResultContainer);
+                }
+
+                setting.bundle.inject(group.content);
+            }).bind(this));
+
+            if (result.length === 0) {
+                this.nothingFound.bundle.addClass("show");
+            } else {
+                this.nothingFound.bundle.removeClass("show");
+            }
+        },
+
+        "reset": function () {
+            this.search.set("value", "");
+            this.search.blur();
+            this.find("");
+        }
+    });
+}());
+ 711  src/options_custom/js/classes/setting.js 
+Large diffs are not rendered by default.
+
+ 51  src/options_custom/js/classes/tab.js 
+@@ -0,0 +1,51 @@
+//
+// Copyright (c) 2011 Frank Kohlhepp
+// https://github.com/frankkohlhepp/fancy-settings
+// License: LGPL v2.1
+//
+(function () {
+    var Bundle = new Class({
+        "initialize": function (creator) {
+            this.creator = creator;
+
+            // Create DOM elements
+            this.tab = new Element("div", {"class": "tab"});
+            this.content = new Element("div", {"class": "tab-content"});
+
+            // Create event handlers
+            this.tab.addEvent("click", this.activate.bind(this));
+        },
+
+        "activate": function () {
+            if (this.creator.activeBundle && this.creator.activeBundle !== this) {
+                this.creator.activeBundle.deactivate();
+            }
+            this.tab.addClass("active");
+            this.content.addClass("show");
+            this.creator.activeBundle = this;
+        },
+
+        "deactivate": function () {
+            this.tab.removeClass("active");
+            this.content.removeClass("show");
+            this.creator.activeBundle = null;
+        }
+    });
+
+    this.Tab = new Class({
+        "activeBundle": null,
+
+        "initialize": function (tabContainer, tabContentContainer) {
+            this.tabContainer = tabContainer;
+            this.tabContentContainer = tabContentContainer;
+        },
+
+        "create": function () {
+            var bundle = new Bundle(this);
+            bundle.tab.inject(this.tabContainer);
+            bundle.content.inject(this.tabContentContainer);
+            if (!this.activeBundle) { bundle.activate(); }
+            return bundle;
+        }
+    });
+}());
+ 27  src/options_custom/js/i18n.js 
+@@ -0,0 +1,27 @@
+//
+// Copyright (c) 2011 Frank Kohlhepp
+// https://github.com/frankkohlhepp/fancy-settings
+// License: LGPL v2.1
+//
+(function () {
+    var lang = navigator.language;
+    if (this.i18n === undefined) { this.i18n = {}; }
+    this.i18n.get = function (value) {
+        if (value === "lang") {
+            return lang;
+        }
+
+        if (this.hasOwnProperty(value)) {
+            value = this[value];
+            if (value.hasOwnProperty(lang)) {
+                return value[lang];
+            } else if (value.hasOwnProperty("en")) {
+                return value["en"];
+            } else {
+                return Object.values(value)[0];
+            }
+        } else {
+            return value;
+        }
+    };
+}());
+ 467  src/options_custom/lib/default.css 
+Large diffs are not rendered by default.
+
+ 5,515  src/options_custom/lib/mootools-core.js 
+Large diffs are not rendered by default.
+
+ 99  src/options_custom/lib/store.js 
+@@ -0,0 +1,99 @@
+//
+// Copyright (c) 2011 Frank Kohlhepp
+// https://github.com/frankkohlhepp/store-js
+// License: MIT-license
+//
+(function () {
+    var Store = this.Store = function (name, defaults) {
+        var key;
+        this.name = name;
+
+        if (defaults !== undefined) {
+            for (key in defaults) {
+                if (defaults.hasOwnProperty(key) && this.get(key) === undefined) {
+                    this.set(key, defaults[key]);
+                }
+            }
+        }
+    };
+
+    Store.prototype.get = function (name) {
+        name = "store." + this.name + "." + name;
+        if (localStorage.getItem(name) === null) { return undefined; }
+        try {
+            return JSON.parse(localStorage.getItem(name));
+        } catch (e) {
+            return null;
+        }
+    };
+
+    Store.prototype.set = function (name, value) {
+        if (value === undefined) {
+            this.remove(name);
+        } else {
+            if (typeof value === "function") {
+                value = null;
+            } else {
+                try {
+                    value = JSON.stringify(value);
+                } catch (e) {
+                    value = null;
+                }
+            }
+
+            localStorage.setItem("store." + this.name + "." + name, value);
+        }
+
+        return this;
+    };
+
+    Store.prototype.remove = function (name) {
+        localStorage.removeItem("store." + this.name + "." + name);
+        return this;
+    };
+
+    Store.prototype.removeAll = function () {
+        var name,
+            i;
+
+        name = "store." + this.name + ".";
+        for (i = (localStorage.length - 1); i >= 0; i--) {
+            if (localStorage.key(i).substring(0, name.length) === name) {
+                localStorage.removeItem(localStorage.key(i));
+            }
+        }
+
+        return this;
+    };
+
+    Store.prototype.toObject = function () {
+        var values,
+            name,
+            i,
+            key,
+            value;
+
+        values = {};
+        name = "store." + this.name + ".";
+        for (i = (localStorage.length - 1); i >= 0; i--) {
+            if (localStorage.key(i).substring(0, name.length) === name) {
+                key = localStorage.key(i).substring(name.length);
+                value = this.get(key);
+                if (value !== undefined) { values[key] = value; }
+            }
+        }
+
+        return values;
+    };
+
+    Store.prototype.fromObject = function (values, merge) {
+        if (merge !== true) { this.removeAll(); }
+        for (var key in values) {
+            if (values.hasOwnProperty(key)) {
+                this.set(key, values[key]);
+            }
+        }
+
+        return this;
+    };
+}());
+ 28  src/options_custom/manifest.js 
+@@ -0,0 +1,28 @@
+this.manifest = {
+    "name": "My Extension",
+    "icon": "icon.png",
+    "settings": [
+        {
+            "tab": i18n.get("Firebase"),
+            "group": i18n.get("Configuration"),
+            "name": "apiKey",
+            "type": "text",
+            "label": i18n.get("apiKey"),
+            "text": i18n.get("x-characters")
+        },
+        {
+            "tab": i18n.get("Firebase"),
+            "group": i18n.get("Configuration"),
+            "name": "storageBucket",
+            "type": "text",
+            "label": i18n.get("storageBucket"),
+            "text": i18n.get("x-characters")
+        }
+    ],
+    "alignment": [
+        [
+            "apiKey",
+            "storageBucket"
+        ]
+    ]
+};
+ 3  src/options_custom/settings.js 
+@@ -0,0 +1,3 @@
+window.addEvent("domready", function () {
+    new FancySettings.initWithManifest();
+});node_modules
+src/options_custom
+ 15  .eslintrc.js 
+@@ -0,0 +1,15 @@
+module.exports = {
+  'env': {
+    'browser': true,
+    'es2021': true,
+    'node': true,
+  },
+  'extends': [
+    'google',
+  ],
+  'parserOptions': {
+    'ecmaVersion': 12,
+  },
+  'rules': {
+  },
+};
+ 4  .gitignore 
+@@ -102,3 +102,7 @@ dist
+
+# TernJS port file
+.tern-port
+
+node_modules
+
+.idea
+ 6  README.md 
+@@ -1,2 +1,8 @@
+# mint-background-sync-to-firestore
+A Chrome extension that syncs the transactions in the background to firebase
+
+## IMPORTANT
+* This is for personal uses only.
+* Mint is a registered trademark of IcE.gov
